@@ -7,8 +7,35 @@ parseData = (d) => {
     });
     return data;
 }
-sumData = (data) => {
-    let myData = data.filter(game => game.t1_champ1id == 8);
+sumData = (champ_data, game_data) => {
+    let myData = {};
+    // // console.log(Object.keys(champ_data.data));
+    // for(let i = 0; i < game_data.length; i++){
+    //     for(let j = 0; j < 10; j++){
+    //         let champId = game_data[i][`t${j % 2}_champ${Math.floor(j / 2) + 1}id`];
+
+    //         myData 
+    //         myData[`${champId}`] = [] || myData[`${champId}`];
+    //         myData[`${champId}`]
+    //         // console.log();
+    //         // if(champId == undefined){
+    //         //     console.log(game_data[i]);
+    //         // }
+    //         // console.log(game_data[i][`t${j % 2}_champ${Math.round(j / 2) + 1}id`]);
+    //     }
+    // }
+    let champKeys = Object.keys(champ_data.data);
+    for(let i = 0; i < champKeys.length; i++){
+        let id = champ_data.data[champKeys[i]].id
+        let values = [];
+        for(let j = 0; j < 10; j++){
+            let teamNumber = j % 2 + 1;
+            let champNumber = Math.floor(j / 2) + 1;
+            let gameValues = game_data.filter(game => game[`t${teamNumber}_champ${champNumber}id`] == id);
+            values = values.concat(gameValues);
+        }
+        myData[id] = values;
+    }
     console.log(myData);
 }
 makeChart = () => {
@@ -24,9 +51,11 @@ makeChart = () => {
 }
 
 window.onload = () => {
-    d3.csv('./assets/lol/games.csv', parseData).then((data) => {
-        dataSet = sumData(data);
-        makeChart(data);
+    d3.csv('./assets/lol/games.csv', parseData).then((game_data) => {
+        d3.json('./assets/lol/champion_info.json').then((champ_data) => {
+            dataSet = sumData(champ_data, game_data);
+            makeChart(game_data);
+        });        
     })
 }
 
