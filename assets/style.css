@@ -1,4 +1,9 @@
 
+
+@font-face {
+    font-family: fan;
+    src: url(./MorrisRoman-Black.ttf);
+  }
 .champ-label{
     display: inline-block;
     position: fixed;
@@ -49,7 +54,7 @@
     text-align: left;
     padding: 4px 2px;
     margin: 0;
-    border: solid 1px #fff;
+    border: solid 1px #ffffff;
 }
 #results p:hover{
     cursor: pointer;
@@ -64,9 +69,15 @@
     text-align: center;
 }
 #charts{
+    background-color: rgba(255, 255, 255, 0.863);
+    padding: 10px;
     display: inline-block;
 }
 #champ-data{
+    color: white;
+    border: 1px solid #876a3b;
+    background-color: rgba(0,0,0,.6);
+    padding: 10px;
     margin-top: 50px;
     width: 400px;
     vertical-align: top;
@@ -105,4 +116,67 @@
     vertical-align: top;
     display: inline-block;
     text-align: left;
+}
+#summary{
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+#summary p{
+    color: white;
+    margin: 40px auto;
+    max-width: 600px;
+    text-align: left;
+    position: relative;
+}
+#sumary-inner{
+    display: inline-block;
+}
+#background{
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-image: url(https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/bg-default.jpg);
+    height: 100vh;
+    width: 100vw;
+}
+.label{
+    color: white;
+    fill: white;
+}
+header{
+    font-family: 'fan';
+}
+header h2{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 50px;
+    margin-left: 50px;
+    color: #b4922b;
+    -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: black;
+    font-size: 3em;
+}
+#button-holder{
+    margin: 0 auto;
+    text-align: center;
+}
+button{
+    cursor: pointer;
+    outline: inherit;
+    border: none;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0,0,0,.6);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 50px;
 }

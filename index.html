@@ -11,13 +11,19 @@
 </head>
 
 <body>
-
-    <!-- <div id="champ-data" style="display: hidden"> -->
+    <div id="background">
+    </div>
+    <header>
+        <img src="./assets/league.png" height="150px" style="margin-left: 40px" alt="League of Legends"/>
+        <h2 style="display: inline-block" >Data Visualization</h2>
+    </header>
     <div id="main-holder">
         <div class="champ-label" id="champ-label1" style="visibility: hidden;">ChampName</div>
         <div class="champ-label" id="champ-label2" style="visibility: hidden;">ChampName</div>
         <div class="champ-label" id="champ-label3" style="visibility: hidden;">ChampName</div>
         <div class="champ-label" id="champ-label4" style="visibility: hidden;">ChampName</div>
+
+        <div class="champ-label" id="summ-description" style="visibility: hidden; max-width: 150px">ChampName</div>
 
         <div id="charts">
             <div class="search-div">
@@ -49,7 +55,9 @@
                 </div>
             </div>
         </div>
-        <div id="champ-data" style="visibility: hidden;">
+        <!-- https://euw.leagueoflegends.com/en/game-info/champions/ -->
+        <!-- https://www.w3schools.com/howto/howto_css_switch.asp -->
+        <div id="champ-data">
             <div style="display: block; height: 120px">
                 <img id="champ-image" src="" alt="Champion Image" />
                 <h2 id="champ-name"></h2>
@@ -61,7 +69,27 @@
             </div>
         </div>
     </div>
-
+    <div id="summary">
+        <div id="summary-inner">
+            <p>
+                League of Legends is a Multiplayer Online Battle Arena game, or MOBA for short. To start with, two teams begin with five players who choose champions from a pool of nearly 140 characters who each have their own unique abilities, strengths, and weaknesses. To aid their champion, players also choose runes, and spells. Spells can be used multiple times throughout a match but are put on long cool downs forcing a player to use said spells strategically. The game ends when one team breaks down enough of the opposing team turrets to reach the enemies Nexus and destroy it.
+            </p>
+            <p>
+                Because of the competitive nature of League, players around the globe have been refining their skills and stratagies to provide them with optimal conditions to win the game. In doing so players often turn to statistics gathered from previous games and season to help clue them in on what approaches would be helpful to adapt. Players also often look to see what the majority of players are doing. This can be helpful in considering counters and even just keeping pace with other players in general.
+            </p>
+            <p>
+                For instance the data above, while fairly general, can be useful when considering which champions should be played and what strategies should be employed. One thing that really sticks out is how getting more dragons kills per game doesn't have a strong correlation with winning. Rather, the data points are fairly sporadic and don't yield themselves to a dragon focused meta. Instead, it's helpful to consider the top right graph that provides an insight into the relationship with win rate and towers destroyed. Here we can see very clearly that destroying more towers per game correlates strongly with winning. However it is important to keep in mind that correlation does not mean causation. Perhaps more towers were destroyed because the team was winning anyways, as opposed the team won because they were more tower focused. Still having more towers destroyed than your opponent is a step in the right direction if your goal is to win.
+            </p>
+            <p>
+                Finally, if you go ahead and click on a champion you can see what summoners (spells) the player selected at the beginning of the match. Again, each player selects two spells, which explains why many champions appear to have a fairly even split between two spells. Using this information you can consider what your opponent is likely to choose as their spells, as well as what may be a strong choice as you select your spells.
+            </p>
+        </div>
+    </div>
+    <div id="button-holder">
+        <button onclick="document.location.href = './about.html'">
+            About Page
+        </button>
+    </div>
     <script src="./main.js"></script>
 </body>
 

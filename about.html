@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link href="assets/style.css" rel="stylesheet" type="text/css" />
+    <link href="assets/slider.css" rel="stylesheet" type="text/css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
+    <title>Project 3</title>
+
+</head>
+
+<body>
+    <div id="background">
+    </div>
+    <header>
+        <img src="./assets/league.png" height="150px" style="margin-left: 40px" alt="League of Legends" />
+        <h2 style="display: inline-block">Data Visualization</h2>
+    </header>
+    <div id="summary" style="margin: 0 auto; text-align: center">
+        <div id="summary-inner" style="max-width: 600px; background-color:  rgba(0,0,0,.6); padding: 10px; margin: 0 auto; text-align: center">
+            <p>
+                This project includes a wide variety of interactivity. For one I implemented linking between the 4 major charts. You can
+                also search by champion names and it suggests possible solutions to your search. You can also click on points
+                and get more information aobut them. This is made more easily accesible by the use of a voronoi grid. Finally
+                you can toggle on and off some setting to allow the viewing of the information in some different styles.
+            </p>
+            <p>
+                Atop the mentioned functionality, there are also some useful hover popups. One you will notice quickly is when you hover
+                over a point it displays what champion you are hovering over. As much as I liked that feature, I felt it
+                was still a little difficult to find a specific champion--even when sorting alphabetically. So that was the
+                reason for implementing the search feature. The other popup is a spell description that appears when you
+                hover over the stacked bar chart in the champion window.This provides you with some more insight as to the
+                actual functionality of the spell.
+            </p>
+            <p>
+                One of the most difficult parts of this project was the stacked bar chart. For some reason I just wasn't able to get it working
+                with d3's functionality. I think that part of my confusion is because I really only needed one bar. As a
+                result I ended up just making some stacked bar functionality from scratch which wasn't too difficult. The
+                end result was essenetially the same anyways.
+            </p>
+            <p>
+                I also found I was having a little difficulty analyzing the data. I went back and forth on exactly how I wanted to pull and look at the data from the CSV and JSON files. In the end I wanted something efficient so I knew that I only wanted to make one pass through the data (rather than storing each game in each champion). So all the analyzing, summing, and calculations are done in one pass which spead up the program tremendously.
+            </p>
+            <p>
+                I also wanted the page to have images of each champion. At first I was going to implement google's image search API which I've done in projects in the past. I decided against it because I felt it was a little heavy for the purpose
+                I needed it for, it would also need to be running from a specific URL and I didn't want to have to set up
+                a webpage to make this project work. So instead I'm simply qeurying a site that has the images of all the
+                champions and switching out the name of the champion in the URL.
+            </p>
+            <p>
+                Overall I'd say the project came out fairly decent. I got all the functionality I wanted into the project plus the search feature which I wasn't expecting to need at all. The site works fairly quickly even though it's loading in and then processing 50,000 data entries everytime the site loads. If I were to continue with the project I would simply write the analyzed data out to a JSON file so all the processing wouldn't need to be done each time but I didn't have the time for this step during this project.
+            </p>
+
+        </div>
+    </div>
+    <div id="button-holder">
+        <button onclick="document.location.href = './index.html'">
+            Back
+        </button>
+    </div>
+</body>
+
+</html>

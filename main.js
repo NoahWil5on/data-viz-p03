@@ -1,4 +1,3 @@
-// set these chart properties globally so we can reuse
 let w = 400, h = 300;
 let xScale;
 let charts = [];
@@ -10,7 +9,7 @@ let selectedChamp;
 let dataset = [];
 let stackedBarChart;
 
-
+//simple csv parser function parses ints for all properties of data
 parseData = (d) => {
     let data = [];
     let keys = Object.keys(d);
@@ -19,6 +18,7 @@ parseData = (d) => {
     });
     return data;
 }
+//sum and analyze data
 doData = (game_data, champ_data, champ_data_2, summ_data) => {
     let myData = {};
     game_data.forEach((game) => {
@@ -26,6 +26,8 @@ doData = (game_data, champ_data, champ_data_2, summ_data) => {
             let champNumber = Math.floor(i / 2) + 1;
             let teamNumber = i % 2 + 1;
             let id = game[`t${teamNumber}_champ${champNumber}id`] + "";
+
+            //if this champion hasn't been added yet, give it initial values
             if (!myData[id]) {
                 let name = champ_data.data[id].name;
                 myData[id] = {
@@ -37,6 +39,7 @@ doData = (game_data, champ_data, champ_data_2, summ_data) => {
                     sums: {},
                     name: name,
                 };
+                //setup empty summoner spell data
                 summ_keys = Object.keys(summ_data.data);
                 for (let j = 0; j < summ_keys.length; j++) {
                     summ_name = summ_data.data[summ_keys[j] + ""].name;
@@ -49,7 +52,7 @@ doData = (game_data, champ_data, champ_data_2, summ_data) => {
                     }
                 }
             }
-            //t1_champ2_sum2
+            //add all the new values
             myData[id].sums[summ_data.data[game[`t${teamNumber}_champ${champNumber}_sum1`] + ""].name].val++;
             myData[id].sums[summ_data.data[game[`t${teamNumber}_champ${champNumber}_sum2`] + ""].name].val++;
             myData[id].games++;
@@ -61,6 +64,8 @@ doData = (game_data, champ_data, champ_data_2, summ_data) => {
     });
     let keys = Object.keys(myData);
     let myDataset = [];
+
+    //find stats per game now that we have added all values
     keys.forEach((champKey) => {
         let champ = myData[champKey];
         champ.winPercent = champ.wins / champ.games;
@@ -70,9 +75,10 @@ doData = (game_data, champ_data, champ_data_2, summ_data) => {
         champ.id = champKey;
         myDataset.push(champ);
     });
-    console.log(myDataset);
     return myDataset;
 }
+//using just a number 1-4 get the property and property name (for showing the user) that will be used 
+//with each chart
 getProperty = (chartNumber) => {
     let property = {};
     switch (chartNumber) {
@@ -99,6 +105,7 @@ getProperty = (chartNumber) => {
     }
     return property;
 }
+//4 main chart mouseover functions
 vMouseOver = (d) => {
     for (let i = 0; i < 4; i++) {
         let property = getProperty(i + 1).prop;
@@ -130,12 +137,14 @@ vMouseOut = (d) => {
             .attr('stroke', '#666');
     }
 }
+//make standardized chart
 makeChart = (chartNumber) => {
     let prop = getProperty(chartNumber);
     let property = prop.prop;
     let propertyName = prop.name;
     let xScaleOrdinal;
 
+    //order charts
     if (byWinPercent) {
         dataset.sort((a, b) => {
             return a.winPercent - b.winPercent;
@@ -153,6 +162,7 @@ makeChart = (chartNumber) => {
             .domain(['A', 'Z'])
             .range([60, w - 20]);
     }
+
     let yExtent = d3.extent(dataset, d => d[property]);
     let myPadding = (yExtent[1] - yExtent[0]) * .05;
     yExtent[0] = yExtent[0] - myPadding;
@@ -168,22 +178,10 @@ makeChart = (chartNumber) => {
         .attr('width', w)
         .attr('height', h);
 
-    //   let line = d3.line()
-    //                   .x(d => xScale(d.date))
-    //                   .y(d => yScale(d[property]));
-
     let voronoi = d3.voronoi()
         .x(d => xScale(dataset.indexOf(d)))
         .y(d => yScale(d[property]))
         .extent([[20, 20], [w - 20, h - 40]]);
-
-    //   //Bind data and create one path per GeoJSON feature
-    //   chart.append("path")
-    //       .datum(dataset)
-    //       .attr("d", line)
-    //       .style('stroke', 'lightgray')
-    //       .style('stroke-width', '2px')
-    //       .style('fill', 'none');
 
     chart.selectAll("circle")
         .data(dataset)
@@ -231,6 +229,7 @@ makeChart = (chartNumber) => {
         .attr('x', -h / 2 + 20)
         .text(propertyName);
 
+    //labeling based "byWinPercent"
     if (!byWinPercent) {
         chart.append('text')
             .classed('xaxis-label', true)
@@ -244,20 +243,11 @@ makeChart = (chartNumber) => {
             .attr('x', w / 2 + 40)
             .text("Win Rate");
     }
-
-
-
-
     charts.push(chart);
-
-    //   // gave you all this one...
-    //   chart.append('line')
-    //       .classed('vline', true)
-    //       .classed('hidden', true)
-    //       .attr('id', property + '-line')
-    //       .attr('y1', 20)
-    //       .attr('y2', h - 40);
 }
+//everytime there is a keypress in the search
+//input field run this function, simply finds
+//first 3 matching search results
 doSearch = () => {
     let myHtml = '';
     let myInput = document.getElementById('search-bar').value;
@@ -273,9 +263,12 @@ doSearch = () => {
     }
     document.getElementById('results').innerHTML = myHtml;
 }
+//when a champ is searched for or clicked on run this
 selectChamp = (champName) => {
     document.getElementById('results').innerHTML = '';
     document.getElementById('search-bar').value = champName;
+
+    //set new champion globally
     let lastChamp = selectedChamp;
     for (let i = 0; i < dataset.length; i++) {
         if (dataset[i].name == champName) {
@@ -283,6 +276,7 @@ selectChamp = (champName) => {
             break;
         }
     }
+    //setup info about champion
     document.getElementById('champ-data').style = "visibility: visible";
     document.getElementById('champ-name').innerText = champName;
     document.getElementById('champ-image').src = getImage(champName);
@@ -300,27 +294,43 @@ selectChamp = (champName) => {
 
     for (let i = 0; i < 4; i++) {
         let property = getProperty(i + 1).prop;
+
+        //erase old selected champion
         if (lastChamp) {
             d3.select(`#${property}${lastChamp.id}`)
                 .attr('fill', '#999')
                 .attr('stroke', '#666');
         }
+        //highlight new champion
         d3.select(`#${property}${selectedChamp.id}`)
             .attr('fill', '#f66')
             .attr('stroke', '#f33');
     }
     doStackedBarChart(selectedChamp);
 }
+
+//mouse events for stacked bar chart
+rectOver = (d) => {
+    label = document.getElementById(`summ-description`);
+    label.style.visibility = "visible";
+    let rect = document.getElementById(`rect${d}`).getBoundingClientRect();
+    label.innerText = selectedChamp.sums[d].desc;
+    label.style.top = rect.y + 10 + "px";
+    label.style.left = rect.x - label.getBoundingClientRect().width / 2 + "px";
+}
+rectOut = (d) => {
+    document.getElementById(`summ-description`).style.visibility = "hidden";
+}
+//creates stacked bar chart when champion is selected
 doStackedBarChart = (champion) => {
     if(stackedBarChart){
         stackedBarChart.selectAll("*").remove();
     }
-    // let data = [];
     let keys = Object.keys(champion.sums);
     keys = keys.filter(d => champion.sums[d].val !== 0);
-    // for(let i = 0; i < keys.length; i++){
-    //     data.values[keys[i]] = champion.sums[keys[i]].val;
-    // }
+    keys.sort((a,b) => {
+        return champion.sums[a].val - champion.sums[b].val;
+    })
 
 
     let width = 200;
@@ -331,6 +341,7 @@ doStackedBarChart = (champion) => {
         .attr("width", width)
         .attr("height", height);
 
+    //get the sum of all summoners spells used
     let total = 0;
     for(let i = 0; i < keys.length; i++){
         total += champion.sums[keys[i]].val;
@@ -340,12 +351,15 @@ doStackedBarChart = (champion) => {
         .domain([0, total]).range([0, height - 40]);
     let cScale = d3.scaleOrdinal(d3.schemeSet3);
 
+    //keeps track of where next rectangle will be drawn
     let currentStart = 0;
+
     svg.selectAll('rect')
         .data(keys)
         .enter()
         .append('rect')
-        .attr('x', d => 0)
+        .attr('id', (d) => 'rect' + d)
+        .attr('x', 0)
         .attr('y', d => {
             let temp = currentStart; 
             currentStart += yScale(champion.sums[d].val); 
@@ -353,20 +367,9 @@ doStackedBarChart = (champion) => {
         })
         .attr('width', 80)
         .attr('height', d => yScale(champion.sums[d].val))
-        .style('fill', (d) => cScale(d));
-
-    // let xAxis = d3.axisBottom(xScale)
-    //     .ticks(data.length + 1)
-    //     .tickFormat(d3.format('.0f'));
-
-    // svg.append("g")
-    //     .attr("transform", `translate(0, ${h - 40})`)
-    //     .call(xAxis);
-
-    // let yAxis = d3.axisLeft(yScale);
-    // svg.append("g")
-    //     .attr("transform", `translate(80, 0)`)
-    //     .call(yAxis);
+        .style('fill', (d) => cScale(d))
+        .on('mouseover', rectOver)
+        .on('mouseout', rectOut);
 
     // LEGEND
     let legendScale = d3.scaleOrdinal()
@@ -384,24 +387,11 @@ doStackedBarChart = (champion) => {
 
     svg.select(".legendOrdinal")
         .call(legendOrdinal);
-
-    // svg.append('text')
-    //     .classed('axis-label', true)
-    //     .attr('transform', 'rotate(-90)')
-    //     .attr('x', -h / 2)
-    //     .attr('y', 20)
-    //     .attr('text-anchor', 'middle')
-    //     .text('Total Income')
-
-    // svg.append('text')
-    //     .classed('axis-label', true)
-    //     .attr('x', w / 2)
-    //     .attr('y', h - 5)
-    //     .attr('text-anchor', 'middle')
-    //     .text('Year')
     stackedBarChart = svg;
 }
+//get image from a site online for each champion
 getImage = (champName) => {
+    //in some rare cases we need to edit the name a little to get a working link
     switch (champName) {
         case 'LeBlanc':
             champName = 'Leblanc';
@@ -421,14 +411,26 @@ getImage = (champName) => {
     let myChamp = champName.replace(/[^a-z0-9+]+/gi, '');
     return `https://ddragon.leagueoflegends.com/cdn/9.8.1/img/champion/${myChamp}.png`;
 }
+//clear all data in charts for fresh start
 cleanCharts = () => {
     for (let i = 0; i < 4; i++) {
-        charts[i].selectAll("*").remove();
+        if(charts[i]){
+            charts[i].selectAll("*").remove();
+        }
     }
     charts = [];
 }
+doCharts = () => {
+    cleanCharts();
+    for (let i = 0; i < 4; i++) {
+        makeChart(i + 1);
+    }
+    if(!selectedChamp) selectedChamp = dataset[0];
+    selectChamp(selectedChamp.name);
+}
 
 window.onload = () => {
+    //load in all the datasets
     d3.csv('./assets/lol/games.csv', parseData).then((game_data) => {
         d3.json('./assets/lol/champion_info.json').then((champ_data) => {
             d3.json('./assets/lol/champion_info_2.json').then((champ_data_2) => {
@@ -442,29 +444,19 @@ window.onload = () => {
                         resolve(doData(game_data, champ_data, champ_data_2, summ_data));
                     }).then((myData) => {
                         dataset = myData;
+                        
+                        //reset charts based on toggle switches
                         document.getElementById('win-percent').addEventListener('change', (e) => {
                             byWinPercent = e.target.checked;
-                            cleanCharts();
-                            for (let i = 0; i < 4; i++) {
-                                makeChart(i + 1);
-                            }
-                            if (selectedChamp) selectChamp(selectedChamp.name);
+                            doCharts();
                         });
                         document.getElementById('show-total').addEventListener('change', (e) => {
                             mySwitch = e.target.checked;
-                            cleanCharts();
-                            for (let i = 0; i < 4; i++) {
-                                makeChart(i + 1);
-                            }
-                            if (selectedChamp) selectChamp(selectedChamp.name);
+                            doCharts()
                         });
-                        for (let i = 0; i < 4; i++) {
-                            makeChart(i + 1);
-                        }
+                        //make initial charts
+                        doCharts();
                     });
-
-
-
                 });
             });
         });
