@@ -1,14 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link href="assets/style.css" rel="stylesheet" type="text/css" />
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>    
-        <title>Project 3</title>
-    </head>
-    <body>
-        <svg></svg>
-        <script src="./main.js"></script>
-    </body>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="assets/style.css" rel="stylesheet" type="text/css" />
+    <link href="assets/slider.css" rel="stylesheet" type="text/css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
+    <title>Project 3</title>
+</head>
+
+<body>
+
+    <!-- <div id="champ-data" style="display: hidden"> -->
+    <div id="main-holder">
+        <div class="champ-label" id="champ-label1" style="visibility: hidden;">ChampName</div>
+        <div class="champ-label" id="champ-label2" style="visibility: hidden;">ChampName</div>
+        <div class="champ-label" id="champ-label3" style="visibility: hidden;">ChampName</div>
+        <div class="champ-label" id="champ-label4" style="visibility: hidden;">ChampName</div>
+
+        <div id="charts">
+            <div class="search-div">
+                <input id="search-bar" type="text" onkeyup="doSearch()" placeholder="Search By Champion..">
+                <div id="results">
+                </div>
+            </div>
+            <div></div>
+            <svg id="chart1"></svg>
+            <svg id="chart2"></svg>
+            <br />
+            <svg id="chart3"></svg>
+            <svg id="chart4"></svg>
+            <div></div>
+            <div id="controls">
+                <div>
+                    <label class="control-label">Order By Win Percent</label>
+                    <label class="switch">
+                        <input id="win-percent" type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div>
+                    <label class="control-label">Aggregate Data</label>
+                    <label class="switch">
+                        <input id="show-total" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="champ-data" style="visibility: hidden;">
+            <div style="display: block; height: 120px">
+                <img id="champ-image" src="" alt="Champion Image" />
+                <h2 id="champ-name"></h2>
+            </div>
+            <div style="display: block">
+                <svg id="stackedBar"></svg>
+                <div id="champ-info">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+
 </html>

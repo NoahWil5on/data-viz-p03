@@ -1,0 +1,108 @@
+
+.champ-label{
+    display: inline-block;
+    position: fixed;
+    top: 40;
+    left: 200;
+    z-index: 100;
+    background-color: white;
+    border: solid 1px black;
+    padding: 2px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.search-div{
+    position: relative;
+    width: 200px;
+    top: 0;
+    left: 0;
+}
+.search-div input[type=text] {
+    width: 100%;
+    padding: 6px;
+    border: none;
+    border-bottom: solid 1px #999;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+}
+.yaxis-label {
+    transform: rotate(-90deg);
+    text-anchor: middle;
+    font-family: sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+ }
+ .xaxis-label {
+    text-anchor: middle;
+    font-family: sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+ }
+#results{
+    position: absolute;
+    width: 100%;
+    background-color: white;
+}
+#results p{
+    text-align: left;
+    padding: 4px 2px;
+    margin: 0;
+    border: solid 1px #fff;
+}
+#results p:hover{
+    cursor: pointer;
+    border: solid 1px #46f;
+}
+.voronoi:hover{
+    cursor: pointer;
+}
+#main-holder{
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+#charts{
+    display: inline-block;
+}
+#champ-data{
+    margin-top: 50px;
+    width: 400px;
+    vertical-align: top;
+    display: inline-block;
+}
+#champ-data img{
+    float: left;
+    text-align: left;
+}
+#champ-data h2{
+    margin: 0;
+    float: right;
+    text-align: right;
+}
+#controls{
+    float: left;
+}
+#controls label{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+#controls .control-label{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 175px;
+    text-align: left;
+}
+#stackedBar{
+    padding-top: 20px;
+    display: inline-block;
+}
+#champ-info{
+    vertical-align: top;
+    display: inline-block;
+    text-align: left;
+}
